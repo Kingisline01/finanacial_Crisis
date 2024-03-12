@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="kakashi.jpg">
+  <title>Pie Chart Representation</title>
+  <!-- Add Chart.js library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div>
+    <label for="segment1">Segment 1:</label>
+    <input type="text" id="segment1">
+    <input type="number" id="value1" min="0" max="100" step="1">
+    <input type="color" id="color1">
+  </div>
+  <div>
+    <label for="segment2">Segment 2:</label>
+    <input type="text" id="segment2">
+    <input type="number" id="value2" min="0" max="100" step="1">
+    <input type="color" id="color2">
+  </div>
+  <div>
+    <label for="segment3">Segment 3:</label>
+    <input type="text" id="segment3">
+    <input type="number" id="value3" min="0" max="100" step="1">
+    <input type="color" id="color3">
+  </div>
+  <div>
+    <label for="segment4">Segment 4:</label>
+    <input type="text" id="segment4">
+    <input type="number" id="value4" min="0" max="100" step="1">
+    <input type="color" id="color4">
+  </div>
+  <button id="updateBtn">Update Chart</button>
+  <div style="max-width: 500px; margin: auto;">
+    <canvas id="pieChart"></canvas>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('updateBtn').addEventListener('click', updatePieChart);
+
+      let pieChart;
+
+      // Function to update pie chart with custom values
+      function updatePieChart() {
+        // Get user input values
+        const segment1 = document.getElementById('segment1').value;
+        const segment2 = document.getElementById('segment2').value;
+        const segment3 = document.getElementById('segment3').value;
+        const segment4 = document.getElementById('segment4').value;
+
+        const value1 = parseFloat(document.getElementById('value1').value);
+        const value2 = parseFloat(document.getElementById('value2').value);
+        const value3 = parseFloat(document.getElementById('value3').value);
+        const value4 = parseFloat(document.getElementById('value4').value);
+
+        const color1 = document.getElementById('color1').value;
+        const color2 = document.getElementById('color2').value;
+        const color3 = document.getElementById('color3').value;
+        const color4 = document.getElementById('color4').value;
+
+        // Validate input values
+        if (isNaN(value1) || isNaN(value2) || isNaN(value3) || isNaN(value4)) {
+          alert("Please enter valid numbers for all values.");
+          return;
+        }
+
+        // Create a pie chart
+        const ctx = document.getElementById('pieChart').getContext('2d');
+        if (pieChart) {
+          pieChart.destroy(); // Destroy existing chart instance before creating a new one
+        }
+        pieChart = new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: [segment1, segment2, segment3, segment4], // Labels for each segment
+            datasets: [{
+              label: 'Custom Values',
+              backgroundColor: [color1, color2, color3, color4], // Colors for each segment
+              borderColor: 'rgba(255, 255, 255, 0.5)',
+              borderWidth: 2,
+              data: [value1, value2, value3, value4] // Custom input values
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
